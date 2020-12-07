@@ -8,6 +8,7 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /.idea/gradle.xml
+/.idea/render.experimental.xml
 .DS_Store
 /build
 /captures
