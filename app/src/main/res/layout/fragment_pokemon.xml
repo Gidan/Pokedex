@@ -6,9 +6,7 @@
     >
 
     <data>
-        <variable
-            name="model"
-            type="com.amatucci.andrea.pokedex.PokemonViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

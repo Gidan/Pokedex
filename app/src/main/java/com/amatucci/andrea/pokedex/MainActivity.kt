@@ -2,6 +2,8 @@ package com.amatucci.andrea.pokedex
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.amatucci.andrea.pokedex.databinding.ActivityMainBinding
@@ -9,13 +11,12 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val pokemonViewModel: PokemonViewModel by viewModel()
+
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.model = pokemonViewModel
         binding.lifecycleOwner = this
         val view = binding.root
         setContentView(view)
@@ -30,5 +31,21 @@ class MainActivity : AppCompatActivity() {
 
         // Setting Navigation Controller with the BottomNavigationView
         binding.bottomNavigation.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener(object : NavController.OnDestinationChangedListener {
+            override fun onDestinationChanged(
+                controller: NavController,
+                destination: NavDestination,
+                arguments: Bundle?
+            ) {
+                val strId = when (destination.label){
+                    "fragment_list" -> R.string.title_pokedex
+                    "fragment_credits" -> R.string.title_credits
+                    else -> R.string.app_name
+                }
+                title = getString(strId)
+            }
+
+        })
     }
 }

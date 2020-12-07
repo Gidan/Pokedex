@@ -1,5 +1,6 @@
 package com.amatucci.andrea.pokedex.fragments
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -28,15 +29,21 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentListBinding.inflate(layoutInflater)
         binding.model = pokemonViewModel
         binding.lifecycleOwner = this
+
+        setup()
+
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        Log.d("ListFragment", "onConfigurationChanged")
+    }
+
+    private fun setup(){
         //pokemonViewModel.pokemonList.observe(this, Observer {
 //            Log.d("MainActivity", it.toString())
 //        })
@@ -51,6 +58,9 @@ class ListFragment : Fragment() {
 
         onStates(pokemonViewModel) { state ->
             when (state) {
+                is PokemonListStates.InitPokemonListState -> {
+                    pokemonViewModel.getPokemonList()
+                }
                 is PokemonListStates.LoadingPokemonListState -> {
                     Log.d(logTag, "loading pokemons")
                     binding.loadingPokemonListProgress.visibility = View.VISIBLE
@@ -66,7 +76,12 @@ class ListFragment : Fragment() {
             }
         }
 
-        pokemonViewModel.getPokemonList()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
     }
 
 

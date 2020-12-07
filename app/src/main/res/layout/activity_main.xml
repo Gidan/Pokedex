@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <variable
-            name="model"
-            type="com.amatucci.andrea.pokedex.PokemonViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

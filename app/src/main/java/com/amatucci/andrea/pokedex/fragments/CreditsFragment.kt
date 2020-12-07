@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.amatucci.andrea.pokedex.PokemonViewModel
 import com.amatucci.andrea.pokedex.databinding.FragmentCreditsBinding
-import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -16,7 +14,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
  */
 class CreditsFragment : Fragment() {
 
-    private val pokemonViewModel: PokemonViewModel by viewModel()
     private lateinit var binding : FragmentCreditsBinding
 
 
@@ -25,7 +22,6 @@ class CreditsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentCreditsBinding.inflate(layoutInflater)
-        binding.model = pokemonViewModel
         binding.lifecycleOwner = this
         return binding.root
     }

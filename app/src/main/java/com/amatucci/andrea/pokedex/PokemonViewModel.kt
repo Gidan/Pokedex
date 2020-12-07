@@ -31,6 +31,14 @@ class PokemonViewModel(private val pokemonRepository: PokemonRepository) : Andro
 
     private val _pokemonList = ArrayList<Pokemon>()
 
+    init {
+        action {
+            if (_pokemonList.isEmpty()){
+                setState(PokemonListStates.InitPokemonListState)
+            }
+        }
+    }
+
     fun getPokemonList() = action {
         setState(PokemonListStates.LoadingPokemonListState)
         try {
