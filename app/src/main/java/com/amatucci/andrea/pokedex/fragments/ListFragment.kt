@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.amatucci.andrea.pokedex.PokemonViewModel
+import com.amatucci.andrea.pokedex.adapters.PokemonListAdapter
 import com.amatucci.andrea.pokedex.databinding.FragmentListBinding
 import com.amatucci.andrea.pokedex.states.PokemonListStates
 import io.uniflow.androidx.flow.onStates
@@ -44,17 +45,8 @@ class ListFragment : Fragment() {
     }
 
     private fun setup(){
-        //pokemonViewModel.pokemonList.observe(this, Observer {
-//            Log.d("MainActivity", it.toString())
-//        })
-//
-//        pokemonViewModel.selectedPokemon.observe(this, Observer {
-//            Log.d("MainActivity", it?.toString() ?: "null pokemon")
-//        })
-//
-//        pokemonViewModel.detailedPokemonList.observe(this, Observer {
-//            Log.d("MainActivity", it?.toString() ?: "null detailed list")
-//        })
+        val adapter = PokemonListAdapter()
+        binding.pokemonList.adapter = adapter
 
         onStates(pokemonViewModel) { state ->
             when (state) {
@@ -68,6 +60,7 @@ class ListFragment : Fragment() {
                 is PokemonListStates.PokemonListState -> {
                     Log.d(logTag, state.pokemonList.toString())
                     binding.loadingPokemonListProgress.visibility = View.GONE
+                    adapter.submitList(state.pokemonList)
                 }
                 is PokemonListStates.LoadingPokemonListErrorState -> {
                     Log.e(logTag, "error state: ${state.exception.message}")
@@ -77,12 +70,9 @@ class ListFragment : Fragment() {
         }
 
 
-    }
-
-    override fun onStart() {
-        super.onStart()
 
     }
+
 
 
 }

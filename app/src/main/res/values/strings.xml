@@ -3,8 +3,10 @@
 
     <string name="nav_menu_list">Pokedex</string>
     <string name="nav_menu_credits">Credits</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_pokedex">Pokedex</string>
     <string name="title_credits">Credits</string>
+
+    <string name="pokemon_item_number">#%d</string>
 </resources>

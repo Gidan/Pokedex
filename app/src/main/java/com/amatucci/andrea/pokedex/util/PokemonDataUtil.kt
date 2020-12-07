@@ -2,10 +2,12 @@ package com.amatucci.andrea.pokedex.util
 
 import com.amatucci.andrea.pokedex.model.Pokemon
 
-class PokemonDataUtil(private val pokemon: Pokemon) {
+class PokemonDataUtil {
 
-    fun getArtwork(): String? {
-        return pokemon.sprites.otherSprites.artwork.front_default
+    companion object {
+        fun getArtwork(pokemon: Pokemon) : String? {
+            return pokemon.sprites.otherSprites.artwork.front_default
+        }
     }
 
 

@@ -32,20 +32,13 @@ class MainActivity : AppCompatActivity() {
         // Setting Navigation Controller with the BottomNavigationView
         binding.bottomNavigation.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener(object : NavController.OnDestinationChangedListener {
-            override fun onDestinationChanged(
-                controller: NavController,
-                destination: NavDestination,
-                arguments: Bundle?
-            ) {
-                val strId = when (destination.label){
-                    "fragment_list" -> R.string.title_pokedex
-                    "fragment_credits" -> R.string.title_credits
-                    else -> R.string.app_name
-                }
-                title = getString(strId)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val strId = when (destination.label){
+                "fragment_list" -> R.string.title_pokedex
+                "fragment_credits" -> R.string.title_credits
+                else -> R.string.app_name
             }
-
-        })
+            title = getString(strId)
+        }
     }
 }
