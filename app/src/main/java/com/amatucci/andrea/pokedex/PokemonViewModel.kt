@@ -50,7 +50,7 @@ class PokemonViewModel(private val pokemonRepository: PokemonRepository) : Andro
         } catch (e: Exception) {
             Log.e("PokemonViewModel", "error ${e.message}")
             _pokemonList.clear()
-            setState(PokemonListStates.LoadingPokemonListErrorState)
+            setState(PokemonListStates.LoadingPokemonListErrorState(e))
         }
 
     }

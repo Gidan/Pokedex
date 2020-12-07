@@ -34,20 +34,22 @@ class MainActivity : AppCompatActivity() {
 //            Log.d("MainActivity", it?.toString() ?: "null detailed list")
 //        })
 
-        onStates(pokemonViewModel) { state -> when (state){
-            is PokemonListStates.LoadingPokemonListState -> {
-                Log.d("MainActivity", "loading pokemons")
-                binding.loadingPokemonListProgress.visibility = View.VISIBLE
+        onStates(pokemonViewModel) { state ->
+            when (state) {
+                is PokemonListStates.LoadingPokemonListState -> {
+                    Log.d("MainActivity", "loading pokemons")
+                    binding.loadingPokemonListProgress.visibility = View.VISIBLE
+                }
+                is PokemonListStates.PokemonListState -> {
+                    Log.d("MainActivity", state.pokemonList.toString())
+                    binding.loadingPokemonListProgress.visibility = View.GONE
+                }
+                is PokemonListStates.LoadingPokemonListErrorState -> {
+                    Log.e("MainActivity", "error state: ${state.exception.message}")
+                    binding.loadingPokemonListProgress.visibility = View.GONE
+                }
             }
-            is PokemonListStates.PokemonListState -> {
-                Log.d("MainActivity", state.pokemonList.toString())
-                binding.loadingPokemonListProgress.visibility = View.GONE
-            }
-            is PokemonListStates.LoadingPokemonListErrorState -> {
-                Log.e("MainActivity", "error state received")
-                binding.loadingPokemonListProgress.visibility = View.GONE
-            }
-        } }
+        }
 
 
         pokemonViewModel.getPokemonList()
