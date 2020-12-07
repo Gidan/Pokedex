@@ -25,15 +25,15 @@ data class Pokemon(
 
 data class Sprites(
     val front_default: String,
-    @Json(name = "other") val otherSprites: OtherSprites
+    @field:Json(name = "other") val otherSprites: OtherSprites
 )
 
 data class OtherSprites(
-    @Json(name = "official-artwork") val artwork: OfficialArtwork
+    @field:Json(name = "official-artwork") val artwork: OfficialArtwork
 )
 
 data class OfficialArtwork(
-    val front_default: String
+    val front_default: String?
 )
 
 data class Stat(
