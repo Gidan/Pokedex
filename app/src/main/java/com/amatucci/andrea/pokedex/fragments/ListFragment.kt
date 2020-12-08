@@ -1,13 +1,20 @@
 package com.amatucci.andrea.pokedex.fragments
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.graphics.drawable.toBitmap
+import com.amatucci.andrea.pokedex.PokemonDetailsActivity
 import com.amatucci.andrea.pokedex.PokemonViewModel
+import com.amatucci.andrea.pokedex.adapters.OnItemClickListener
 import com.amatucci.andrea.pokedex.adapters.PokemonListAdapter
 import com.amatucci.andrea.pokedex.databinding.FragmentListBinding
 import com.amatucci.andrea.pokedex.states.PokemonListStates
@@ -45,7 +52,17 @@ class ListFragment : Fragment() {
     }
 
     private fun setup(){
-        val adapter = PokemonListAdapter()
+        val adapter = PokemonListAdapter(object : OnItemClickListener{
+            override fun onItemClicked(position: Int, commonView: View) {
+                val intent = Intent(context, PokemonDetailsActivity::class.java)
+                val drawableBitmap = (commonView as ImageView).drawable.toBitmap()
+                intent.putExtra("pokemonArtwork", drawableBitmap)
+//                val options = ActivityOptions
+//                    .makeSceneTransitionAnimation(activity, commonView, "pokemonArtwork")
+//                startActivity(intent, options.toBundle())
+                startActivity(intent)
+            }
+        })
         binding.pokemonList.adapter = adapter
 
         onStates(pokemonViewModel) { state ->
