@@ -16,15 +16,26 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
             >
+
+            <View
+                android:id="@+id/pokemonBlendColor"
+                android:layout_width="5dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:background="@android:color/holo_red_dark"
+
+                />
 
             <ImageView
                 android:id="@+id/ivPokemonArtwork"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +55,9 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/guideline"
-                app:layout_constraintTop_toTopOf="@id/ivPokemonArtwork" />
+                app:layout_constraintTop_toTopOf="@id/ivPokemonArtwork"
+                tools:text="NAME"
+                />
 
             <TextView
                 android:id="@+id/txtNum"
@@ -53,7 +66,21 @@
                 android:layout_marginEnd="24dp"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtPokemonName" />
+                app:layout_constraintTop_toTopOf="@+id/txtPokemonName"
+                tools:text="#000"
+                />
+
+            <LinearLayout
+                android:id="@+id/llTypes"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                android:weightSum="1.0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/txtPokemonName"
+                app:layout_constraintTop_toBottomOf="@id/txtPokemonName" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

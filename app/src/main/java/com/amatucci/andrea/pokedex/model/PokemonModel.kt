@@ -20,7 +20,8 @@ data class Pokemon(
     val weight: Int,
     val height: Int,
     val sprites: Sprites,
-    val stats: List<Stat>
+    val stats: List<Stat>,
+    val types: List<Type>
 )
 
 data class Sprites(
@@ -46,4 +47,15 @@ data class StatLink(
     val name: String,
     val url: String
 )
+
+data class Type(
+    val slot: Int,
+    val type: TypeDetails
+)
+
+data class TypeDetails(
+    val name: String,
+    val url: String
+)
+
 
