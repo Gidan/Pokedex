@@ -16,7 +16,7 @@ class PokemonRepository(
     suspend fun pokemon(id: Int) = pokemonService.pokemon(id)
 
     fun getPokemonList(): LiveData<List<Pokemon>> {
-        return pokemonDao.getPokemonWithStatAndType()
+        return pokemonDao.getAllPokemons()
     }
 
     suspend fun refreshData() {

@@ -16,15 +16,9 @@ abstract class PokemonDAO {
 
     @Transaction
     @Query("SELECT * FROM Pokemon")
-    abstract fun getPokemonWithStatAndType(): LiveData<List<Pokemon>>
+    abstract fun getAllPokemons(): LiveData<List<Pokemon>>
 
     @Insert(onConflict = IGNORE)
     abstract fun insertPokemon(pokemon : Pokemon)
-
-    @Insert(onConflict = IGNORE)
-    abstract fun insertStat(stat : Stat)
-
-    @Insert(onConflict = IGNORE)
-    abstract fun insertType(type : Type)
 
 }
