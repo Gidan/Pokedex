@@ -51,7 +51,7 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
                     .into(ivPokemonArtwork)
 
                 llTypes.removeAllViews()
-                item.types.forEach {
+                item.types?.forEach {
                     val typeTag = TypeTag(root.context)
                     typeTag.setType(it.type.name)
                     llTypes.addView(typeTag)

@@ -12,11 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.Observer
 import com.amatucci.andrea.pokedex.PokemonDetailsActivity
 import com.amatucci.andrea.pokedex.PokemonViewModel
 import com.amatucci.andrea.pokedex.adapters.OnItemClickListener
 import com.amatucci.andrea.pokedex.adapters.PokemonListAdapter
 import com.amatucci.andrea.pokedex.databinding.FragmentListBinding
+import com.amatucci.andrea.pokedex.model.Stat
+import com.amatucci.andrea.pokedex.model.Type
 import com.amatucci.andrea.pokedex.states.PokemonListStates
 import io.uniflow.androidx.flow.onStates
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -46,11 +49,6 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Log.d("ListFragment", "onConfigurationChanged")
-    }
-
     private fun setup(){
         val adapter = PokemonListAdapter(object : OnItemClickListener{
             override fun onItemClicked(position: Int, commonView: View) {
@@ -68,23 +66,37 @@ class ListFragment : Fragment() {
         onStates(pokemonViewModel) { state ->
             when (state) {
                 is PokemonListStates.InitPokemonListState -> {
-                    pokemonViewModel.getPokemonList()
+//                    pokemonViewModel.getPokemonList()
+                    pokemonViewModel.getFullPokemonList()
                 }
                 is PokemonListStates.LoadingPokemonListState -> {
                     Log.d(logTag, "loading pokemons")
                     binding.loadingPokemonListProgress.visibility = View.VISIBLE
                 }
-                is PokemonListStates.PokemonListState -> {
-                    Log.d(logTag, state.pokemonList.toString())
-                    binding.loadingPokemonListProgress.visibility = View.GONE
-                    adapter.submitList(state.pokemonList)
-                }
+//                is PokemonListStates.PokemonListState -> {
+//                    Log.d(logTag, state.pokemonList.toString())
+//                    binding.loadingPokemonListProgress.visibility = View.GONE
+//                    adapter.submitList(state.pokemonList)
+//                }
                 is PokemonListStates.LoadingPokemonListErrorState -> {
                     Log.e(logTag, "error state: ${state.exception.message}")
                     binding.loadingPokemonListProgress.visibility = View.GONE
                 }
+                is PokemonListStates.LoadedPokemonListState -> {
+                    Log.d(logTag, "loaded")
+                    binding.loadingPokemonListProgress.visibility = View.GONE
+                }
             }
         }
+
+        pokemonViewModel.fullPokemonList.observe(viewLifecycleOwner, Observer { list ->
+//            val pokemonList = list.map {
+//                it.pokemon.stats = it.stats as ArrayList<Stat>
+//                it.pokemon.types = it.types as ArrayList<Type>
+//                it.pokemon
+//            }.toList()
+            adapter.submitList(list)
+        })
 
 
 

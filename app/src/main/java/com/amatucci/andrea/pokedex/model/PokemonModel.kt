@@ -1,5 +1,8 @@
 package com.amatucci.andrea.pokedex.model
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 
 data class PokemonList(
@@ -14,33 +17,37 @@ data class PokemonLink(
     val url: String
 )
 
+@Entity
 data class Pokemon(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val name: String,
     val weight: Int,
     val height: Int,
-    val sprites: Sprites,
-    val stats: List<Stat>,
-    val types: List<Type>
+    @Embedded val sprites: Sprites,
+    var stats : List<Stat>,
+    var types : List<Type>
 )
 
 data class Sprites(
     val front_default: String,
-    @field:Json(name = "other") val otherSprites: OtherSprites
+    @Embedded  @field:Json(name = "other") val otherSprites: OtherSprites
 )
 
 data class OtherSprites(
-    @field:Json(name = "official-artwork") val artwork: OfficialArtwork
+    @Embedded(prefix = "official_") @field:Json(name = "official-artwork") val artwork: OfficialArtwork
 )
 
 data class OfficialArtwork(
     val front_default: String?
 )
 
+@Entity
 data class Stat(
+    @PrimaryKey(autoGenerate = true) val dbId: Int,
+    val id: Int,
     val base_stat: Int,
     val effort: Int,
-    val stat: StatLink
+    @Embedded val stat: StatLink
 )
 
 data class StatLink(
@@ -48,14 +55,19 @@ data class StatLink(
     val url: String
 )
 
+@Entity
 data class Type(
+    @PrimaryKey(autoGenerate = true) val dbId: Int,
+    val id: Int,
     val slot: Int,
-    val type: TypeDetails
+    @Embedded val type: TypeDetails
 )
 
 data class TypeDetails(
     val name: String,
     val url: String
 )
+
+
 
 

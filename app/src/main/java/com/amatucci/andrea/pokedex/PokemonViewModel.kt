@@ -12,11 +12,11 @@ import kotlinx.coroutines.Dispatchers
 class PokemonViewModel(private val pokemonRepository: PokemonRepository) : AndroidDataFlow() {
 
     val pokemonList = liveData<PokemonList>(Dispatchers.IO) {
-        val list = runCatching { pokemonRepository.pokemonList() }
-        list.onSuccess {
+        val result = runCatching { pokemonRepository.pokemonList() }
+        result.onSuccess {
             emit(it)
         }
-        list.onFailure {
+        result.onFailure {
             Log.e("PokemonViewModel", "pokemonList failure ${it.message}")
         }
     }
@@ -29,39 +29,24 @@ class PokemonViewModel(private val pokemonRepository: PokemonRepository) : Andro
         _selectedPokemon.postValue(pokemon)
     }
 
-    private val _pokemonList = ArrayList<Pokemon>()
-
     init {
         action {
-            if (_pokemonList.isEmpty()){
-                setState(PokemonListStates.InitPokemonListState)
-            }
+            setState(PokemonListStates.InitPokemonListState)
         }
     }
 
-    fun getPokemonList() = action {
-        setState(PokemonListStates.LoadingPokemonListState)
-        try {
-            for (i in 1..20) {
-                val pokemon = runCatching {
-                    pokemonRepository.pokemon(i)
-                }
+    val fullPokemonList = pokemonRepository.getPokemonList()
 
-                pokemon.onSuccess {
-                    _pokemonList.add(it)
-                }
-                pokemon.onFailure {
-                    throw it
-                }
-            }
-            setState(PokemonListStates.PokemonListState(_pokemonList))
-        } catch (e: Exception) {
-            Log.e("PokemonViewModel", "error ${e.message}")
-            _pokemonList.clear()
-            setState(PokemonListStates.LoadingPokemonListErrorState(e))
+
+    fun getFullPokemonList() = action (
+        onAction = {
+            setState(PokemonListStates.LoadingPokemonListState)
+            pokemonRepository.refreshData()
+            setState(PokemonListStates.LoadedPokemonListState)
+        },
+        onError = {error, _ ->
+            Log.e("PokemonViewModel", "onError ${error.message}")
         }
-
-    }
-
+    )
 
 }
