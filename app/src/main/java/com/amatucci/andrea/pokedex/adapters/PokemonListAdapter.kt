@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.amatucci.andrea.pokedex.R
 import com.amatucci.andrea.pokedex.customviews.Type
@@ -21,7 +21,7 @@ interface OnItemClickListener {
     fun onItemClicked(position : Int, commonView : View)
 }
 
-class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) : ListAdapter<Pokemon, RecyclerView.ViewHolder>(PokemonDiffCallback()) {
+class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) : PagingDataAdapter<Pokemon, RecyclerView.ViewHolder>(PokemonDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return PokemonViewHolder(
@@ -40,31 +40,36 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
 
     class PokemonViewHolder(private val binding: ListItemPokemonBinding, private val onItemClickListener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
-        fun bind(item: Pokemon){
+        fun bind(pokemon: Pokemon?){
             binding.apply {
-                txtPokemonName.text = item.name.toUpperCase(Locale.getDefault())
-                txtNum.text = root.context.getString(R.string.pokemon_item_number, item.id)
-                val imgUrl = PokemonDataUtil.getArtwork(item)
-                Glide.with(root)
-                    .load(imgUrl)
-                    .placeholder(R.drawable.ic_pokeball)
-                    .into(ivPokemonArtwork)
-
-                llTypes.removeAllViews()
-                item.types?.forEach {
-                    val typeTag = TypeTag(root.context)
-                    typeTag.setType(it.type.name)
-                    llTypes.addView(typeTag)
+//                txtPokemonName.text = ""
+//                txtNum.text = ""
+//                Glide.with(root)
+//                    .load(R.drawable.ic_pokeball)
+//                    .into(ivPokemonArtwork)
+//                llTypes.removeAllViews()
+                pokemonBlendColor.setBackgroundColor(ContextCompat.getColor(root.context, R.color.white))
+                pokemon?.let {
+                    txtPokemonName.text = pokemon.name.toUpperCase(Locale.getDefault())
+                    txtNum.text = root.context.getString(R.string.pokemon_item_number, pokemon.id)
+                    val imgUrl = PokemonDataUtil.getArtwork(pokemon)
+                    Glide.with(root)
+                        .load(imgUrl)
+                        .placeholder(R.drawable.ic_pokeball)
+                        .into(ivPokemonArtwork)
+                    type1.setType(pokemon.types[0].type.name)
+                    type2.setType(if (pokemon.types.size > 1) pokemon.types[1].type.name else null)
+                    val map = pokemon.types.map { it.type.name }.map { ContextCompat.getColor(root.context, Type.valueOf(it).colorRes) }
+                    val blendColors = blendColors(*map.toIntArray())
+                    pokemonBlendColor.setBackgroundColor(blendColors!!)
                 }
-                val map = item.types.map { it.type.name }.map { ContextCompat.getColor(root.context, Type.valueOf(it).colorRes) }
-                val blendColors = blendColors(*map.toIntArray())
-                pokemonBlendColor.setBackgroundColor(blendColors!!)
+
             }
             binding.cvPokemon.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
-            val position = adapterPosition
+            val position = absoluteAdapterPosition
             onItemClickListener.onItemClicked(position, binding.ivPokemonArtwork)
         }
 

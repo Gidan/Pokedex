@@ -3,24 +3,36 @@ package com.amatucci.andrea.pokedex.model
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.squareup.moshi.Json
 
 data class PokemonList(
     val count: Int,
-    val next: String,
-    val previous: Int?,
+    val next: String?,
+    val previous: String?,
     val results: List<PokemonLink>
 )
 
+//@Entity
 data class PokemonLink(
+//    @PrimaryKey
     val name: String,
     val url: String
 )
 
+//data class PokemonWithUrl(
+//    @Embedded(prefix = "link_") val pokemonLink: PokemonLink,
+//    @Relation(
+//        parentColumn = "name",
+//        entityColumn = "name"
+//    )
+//    val pokemon: Pokemon
+//)
+
 @Entity
 data class Pokemon(
-    @PrimaryKey val id: Int,
-    val name: String,
+    @PrimaryKey val name: String,
+    val id: Int,
     val weight: Int,
     val height: Int,
     @Embedded val sprites: Sprites,
@@ -67,6 +79,8 @@ data class TypeDetails(
     val name: String,
     val url: String
 )
+
+
 
 
 

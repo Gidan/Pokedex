@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.amatucci.andrea.pokedex.PokemonDetailsActivity
 import com.amatucci.andrea.pokedex.PokemonViewModel
 import com.amatucci.andrea.pokedex.adapters.OnItemClickListener
@@ -22,6 +23,8 @@ import com.amatucci.andrea.pokedex.model.Stat
 import com.amatucci.andrea.pokedex.model.Type
 import com.amatucci.andrea.pokedex.states.PokemonListStates
 import io.uniflow.androidx.flow.onStates
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
@@ -67,7 +70,7 @@ class ListFragment : Fragment() {
             when (state) {
                 is PokemonListStates.InitPokemonListState -> {
 //                    pokemonViewModel.getPokemonList()
-                    pokemonViewModel.getFullPokemonList()
+//                    pokemonViewModel.getFullPokemonList()
                 }
                 is PokemonListStates.LoadingPokemonListState -> {
                     Log.d(logTag, "loading pokemons")
@@ -89,14 +92,18 @@ class ListFragment : Fragment() {
             }
         }
 
-        pokemonViewModel.fullPokemonList.observe(viewLifecycleOwner, Observer { list ->
-//            val pokemonList = list.map {
-//                it.pokemon.stats = it.stats as ArrayList<Stat>
-//                it.pokemon.types = it.types as ArrayList<Type>
-//                it.pokemon
-//            }.toList()
-            adapter.submitList(list)
-        })
+//        pokemonViewModel.fullPokemonList.observe(viewLifecycleOwner, Observer { list ->
+//            adapter.submitList(list)
+//        })
+
+
+
+        lifecycleScope.launchWhenCreated {
+            @OptIn(ExperimentalCoroutinesApi::class)
+            pokemonViewModel.fullPokemonList.flow.collectLatest {
+                adapter.submitData(it)
+            }
+        }
 
 
 

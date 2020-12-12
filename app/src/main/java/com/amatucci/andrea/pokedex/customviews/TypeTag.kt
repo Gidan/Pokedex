@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -71,19 +72,18 @@ class TypeTag : FrameLayout {
         layoutParams = params
     }
 
-    fun setType(typeName: String) {
-        txtTypeName.text = typeName.toUpperCase(Locale.getDefault())
-        val colorRes: Int =
-            try {
-                Type.valueOf(typeName).colorRes
-            } catch (e: IllegalArgumentException) {
-                R.color.type_normal
-            }
-        backgroundTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
-
-
+    fun setType(typeName: String?) {
+        visibility = if (typeName != null) View.VISIBLE else View.GONE
+        typeName?.let{
+            txtTypeName.text = typeName.toUpperCase(Locale.getDefault())
+            val colorRes: Int =
+                try {
+                    Type.valueOf(typeName).colorRes
+                } catch (e: IllegalArgumentException) {
+                    R.color.type_normal
+                }
+            backgroundTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+        }
     }
-
-
 }

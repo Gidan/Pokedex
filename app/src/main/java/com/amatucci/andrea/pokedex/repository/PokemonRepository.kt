@@ -8,7 +8,7 @@ import com.amatucci.andrea.pokedex.room.PokemonDAO
 
 class PokemonRepository(
     private val pokemonService: PokemonService,
-    private val pokemonDao: PokemonDAO
+    val pokemonDao: PokemonDAO
 ) {
 
     suspend fun pokemonList() = pokemonService.pokemonList()

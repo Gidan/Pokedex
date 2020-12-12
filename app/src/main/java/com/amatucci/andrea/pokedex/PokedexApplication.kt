@@ -4,6 +4,7 @@ import android.app.Application
 import com.amatucci.andrea.pokedex.diModules.appModule
 import com.amatucci.andrea.pokedex.diModules.dbModule
 import com.amatucci.andrea.pokedex.diModules.networkModule
+import com.amatucci.andrea.pokedex.diModules.pagingModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -16,7 +17,7 @@ class PokedexApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@PokedexApplication)
-            modules(networkModule, appModule, dbModule)
+            modules(networkModule, appModule, dbModule, pagingModule)
         }
     }
 }

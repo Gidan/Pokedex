@@ -81,7 +81,23 @@
                 android:weightSum="1.0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txtPokemonName"
-                app:layout_constraintTop_toBottomOf="@id/txtPokemonName" />
+                app:layout_constraintTop_toBottomOf="@id/txtPokemonName" >
+
+                <com.amatucci.andrea.pokedex.customviews.TypeTag
+                    android:id="@+id/type1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"/>
+                <com.amatucci.andrea.pokedex.customviews.TypeTag
+                    android:id="@+id/type2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
