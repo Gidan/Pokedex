@@ -9,4 +9,5 @@
     <string name="title_credits">Credits</string>
 
     <string name="pokemon_item_number">#%d</string>
+    <string name="btn_retry_text">Retry</string>
 </resources>

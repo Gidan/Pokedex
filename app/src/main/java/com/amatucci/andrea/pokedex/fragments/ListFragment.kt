@@ -1,30 +1,28 @@
 package com.amatucci.andrea.pokedex.fragments
 
-import android.app.ActivityOptions
 import android.content.Intent
-import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.graphics.drawable.toBitmap
-import androidx.lifecycle.Observer
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.amatucci.andrea.pokedex.PokemonDetailsActivity
 import com.amatucci.andrea.pokedex.PokemonViewModel
 import com.amatucci.andrea.pokedex.adapters.OnItemClickListener
 import com.amatucci.andrea.pokedex.adapters.PokemonListAdapter
+import com.amatucci.andrea.pokedex.adapters.PokemonLoadStateAdapter
 import com.amatucci.andrea.pokedex.databinding.FragmentListBinding
-import com.amatucci.andrea.pokedex.model.Stat
-import com.amatucci.andrea.pokedex.model.Type
 import com.amatucci.andrea.pokedex.states.PokemonListStates
 import io.uniflow.androidx.flow.onStates
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 /**
@@ -105,6 +103,27 @@ class ListFragment : Fragment() {
             }
         }
 
+        binding.swipeRefresh.setOnRefreshListener { adapter.refresh() }
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            @OptIn(ExperimentalCoroutinesApi::class)
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                binding.swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
+            }
+        }
+
+        adapter
+            .withLoadStateHeaderAndFooter(
+                header = PokemonLoadStateAdapter(adapter::retry),
+                footer = PokemonLoadStateAdapter(adapter::retry)
+            )
+
+//        lifecycleScope.launch {
+//            adapter.loadStateFlow.collectLatest { loadStates ->
+//                binding.loadingPokemonListProgress.isVisible = loadStates.refresh is LoadState.Loading
+//                //retry.isVisible = loadStates.refresh !is LoadState.Loading
+//                //errorMsg.isVisible = loadStates.refresh is LoadState.Error
+//            }
+//        }
 
 
     }
