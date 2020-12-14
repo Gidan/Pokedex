@@ -1,25 +1,26 @@
 package com.amatucci.andrea.pokedex
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.transition.ChangeImageTransform
-import android.transition.Explode
-import android.transition.Fade
-import android.transition.Slide
-import android.view.Window
+import androidx.databinding.ObservableList
+import androidx.lifecycle.Observer
 import com.amatucci.andrea.pokedex.databinding.ActivityPokemonDetailsBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class PokemonDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityPokemonDetailsBinding
+
+    private val pokemonDetailsViewModel: PokemonDetailsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityPokemonDetailsBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
+        binding.model = pokemonDetailsViewModel
         val view = binding.root
         setContentView(view)
 
@@ -31,9 +32,27 @@ class PokemonDetailsActivity : AppCompatActivity() {
 //            sharedElementExitTransition = ChangeImageTransform()
 //        }
 
-        val bitmap = intent.extras?.get("pokemonArtwork") as Bitmap
-        val bitmapDrawable = BitmapDrawable(resources, bitmap)
-        binding.ivPokemonArtwork.setImageBitmap(bitmapDrawable.bitmap)
+//        val bitmap = intent.extras?.get("pokemonArtwork") as Bitmap
+//        val bitmapDrawable = BitmapDrawable(resources, bitmap)
+//        binding.ivPokemonArtwork.setImageBitmap(bitmapDrawable.bitmap)
+
+        val imageUrl = intent.extras?.get("pokemonArtworkUrl") as String
+        imageUrl.let {
+            Glide.with(baseContext)
+                .load(it)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_pokeball)
+                .into(binding.ivPokemonArtwork)
+        }
+
+        pokemonDetailsViewModel.setIntent(intent)
+
+        pokemonDetailsViewModel.type1.observe(this, Observer {
+            binding.type1.setType(it)
+        })
+        pokemonDetailsViewModel.type2.observe(this, Observer {
+            binding.type2.setType(it)
+        })
 
     }
 }

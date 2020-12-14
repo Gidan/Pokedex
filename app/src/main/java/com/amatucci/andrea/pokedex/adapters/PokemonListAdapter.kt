@@ -1,5 +1,6 @@
 package com.amatucci.andrea.pokedex.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,11 @@ import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.util.PokemonDataUtil
 import com.amatucci.andrea.pokedex.util.blendColors
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import java.util.*
 
 interface OnItemClickListener {
-    fun onItemClicked(position : Int, commonView : View)
+    fun onItemClicked(position : Int, commonView : View, pokemon: Pokemon?)
 }
 
 class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) : PagingDataAdapter<Pokemon, RecyclerView.ViewHolder>(PokemonDiffCallback()) {
@@ -40,7 +42,10 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
 
     class PokemonViewHolder(private val binding: ListItemPokemonBinding, private val onItemClickListener: OnItemClickListener) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
+        private var pokemon: Pokemon? = null
+
         fun bind(pokemon: Pokemon?){
+            this.pokemon = pokemon
             binding.apply {
 //                txtPokemonName.text = ""
 //                txtNum.text = ""
@@ -53,8 +58,10 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
                     txtPokemonName.text = pokemon.name.toUpperCase(Locale.getDefault())
                     txtNum.text = root.context.getString(R.string.pokemon_item_number, pokemon.id)
                     val imgUrl = PokemonDataUtil.getArtwork(pokemon)
+                    Log.d("PokemonListAdapter", "loading imgUrl $imgUrl")
                     Glide.with(root)
                         .load(imgUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(R.drawable.ic_pokeball)
                         .into(ivPokemonArtwork)
                     type1.setType(pokemon.types[0].type.name)
@@ -70,12 +77,10 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
 
         override fun onClick(v: View?) {
             val position = absoluteAdapterPosition
-            onItemClickListener.onItemClicked(position, binding.ivPokemonArtwork)
+
+            onItemClickListener.onItemClicked(position, binding.ivPokemonArtwork, this.pokemon)
         }
-
-
     }
-
 }
 
 private class PokemonDiffCallback : DiffUtil.ItemCallback<Pokemon>() {

@@ -18,7 +18,9 @@ import com.amatucci.andrea.pokedex.adapters.OnItemClickListener
 import com.amatucci.andrea.pokedex.adapters.PokemonListAdapter
 import com.amatucci.andrea.pokedex.adapters.PokemonLoadStateAdapter
 import com.amatucci.andrea.pokedex.databinding.FragmentListBinding
+import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.states.PokemonListStates
+import com.amatucci.andrea.pokedex.util.PokemonDataUtil
 import io.uniflow.androidx.flow.onStates
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -52,13 +54,26 @@ class ListFragment : Fragment() {
 
     private fun setup(){
         val adapter = PokemonListAdapter(object : OnItemClickListener{
-            override fun onItemClicked(position: Int, commonView: View) {
+            override fun onItemClicked(position: Int, commonView: View, pokemon: Pokemon?) {
                 val intent = Intent(context, PokemonDetailsActivity::class.java)
-                val drawableBitmap = (commonView as ImageView).drawable.toBitmap()
-                intent.putExtra("pokemonArtwork", drawableBitmap)
+                pokemon?.let {
+                    val imgUrl = PokemonDataUtil.getArtwork(pokemon)
+                    intent.putExtra("pokemonArtworkUrl", imgUrl)
+                    intent.putExtra("id", pokemon.id)
+                    intent.putExtra("name", pokemon.name)
+                    intent.putExtra("type1", pokemon.types[0].type.name)
+                    if (pokemon.types.size > 1) {
+                        intent.putExtra("type2", pokemon.types[1].type.name)
+                    }
+                }
+
+//                val drawableBitmap = (commonView as ImageView).drawable.toBitmap()
+//                intent.putExtra("pokemonArtwork", drawableBitmap)
+
 //                val options = ActivityOptions
 //                    .makeSceneTransitionAnimation(activity, commonView, "pokemonArtwork")
 //                startActivity(intent, options.toBundle())
+
                 startActivity(intent)
             }
         })
