@@ -19,9 +19,13 @@ class PokemonDetailsViewModel(private val pokemonRepository: PokemonRepository) 
 
     var selectedPokemonName : LiveData<String>
     var selectedPokemonId : LiveData<String>
+    var selectedPokemonWeight : LiveData<String>
+    var selectedPokemonHeight : LiveData<String>
     val type1 = MutableLiveData<String>()
     val type2 = MutableLiveData<String>()
-    val selectedPokemon: LiveData<Pokemon?> get() = _selectedPokemon
+    private val selectedPokemon: LiveData<Pokemon?> get() = _selectedPokemon
+
+    val stats = MutableLiveData<List<Pair<String, Float>>>()
 
     init {
         selectedPokemonName = Transformations.map(_selectedPokemonName){
@@ -29,6 +33,17 @@ class PokemonDetailsViewModel(private val pokemonRepository: PokemonRepository) 
         }
         selectedPokemonId = Transformations.map(_selectedPokemonId){
             if (it != null) "#${it}" else ""
+        }
+
+        selectedPokemonWeight = Transformations.map(selectedPokemon){
+            if (it != null) "${it.weight / 10.0} kg" else ""
+        }
+        selectedPokemonHeight = Transformations.map(selectedPokemon){
+            if (it != null) "${it.height / 10.0} m" else ""
+        }
+
+        _selectedPokemon.observeForever { it ->
+            stats.value = it?.stats?.map { Pair(it.stat.name, it.base_stat.toFloat()) }
         }
     }
 

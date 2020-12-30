@@ -54,5 +54,9 @@ class PokemonDetailsActivity : AppCompatActivity() {
             binding.type2.setType(it)
         })
 
+        pokemonDetailsViewModel.stats.observe(this, Observer {
+            binding.statChart.animate(it)
+        })
+
     }
 }

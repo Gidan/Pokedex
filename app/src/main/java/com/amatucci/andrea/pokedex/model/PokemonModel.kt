@@ -13,21 +13,10 @@ data class PokemonList(
     val results: List<PokemonLink>
 )
 
-//@Entity
 data class PokemonLink(
-//    @PrimaryKey
     val name: String,
     val url: String
 )
-
-//data class PokemonWithUrl(
-//    @Embedded(prefix = "link_") val pokemonLink: PokemonLink,
-//    @Relation(
-//        parentColumn = "name",
-//        entityColumn = "name"
-//    )
-//    val pokemon: Pokemon
-//)
 
 @Entity
 data class Pokemon(
@@ -79,6 +68,7 @@ data class TypeDetails(
     val name: String,
     val url: String
 )
+
 
 
 
