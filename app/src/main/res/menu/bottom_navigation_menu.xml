@@ -11,5 +11,4 @@
         android:icon="@drawable/nav_menu_credits"
         android:title="@string/nav_menu_credits"/>
 
-
 </menu>
