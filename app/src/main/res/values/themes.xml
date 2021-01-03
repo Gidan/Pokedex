@@ -16,6 +16,9 @@
         <item name="statBarBackgroundColor">@color/purple_200</item>
         <item name="statBarColor">@color/purple_500</item>
 
+        <item name="windowColorBackground">@color/white</item>
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+
     </style>
 
 
