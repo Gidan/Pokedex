@@ -1,13 +1,14 @@
 package com.amatucci.andrea.pokedex
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.ObservableList
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.amatucci.andrea.pokedex.databinding.ActivityPokemonDetailsBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class PokemonDetailsActivity : AppCompatActivity() {
 
@@ -23,6 +24,9 @@ class PokemonDetailsActivity : AppCompatActivity() {
         binding.model = pokemonDetailsViewModel
         val view = binding.root
         setContentView(view)
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 //        with(window){
 //            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)

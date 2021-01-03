@@ -20,4 +20,6 @@
     <string name="special_defense">Special Defense</string>
     <string name="speed">Speed</string>
     <string name="by_andrea_amatucci">by Andrea Amatucci</string>
+
+    <string name="details">Details</string>
 </resources>
