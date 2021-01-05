@@ -1,8 +1,13 @@
 package com.amatucci.andrea.pokedex
 
 import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.amatucci.andrea.pokedex.databinding.ActivityPokemonDetailsBinding
 import com.bumptech.glide.Glide
@@ -49,8 +54,6 @@ class PokemonDetailsActivity : AppCompatActivity() {
                 .into(binding.ivPokemonArtwork)
         }
 
-        pokemonDetailsViewModel.setIntent(intent)
-
         pokemonDetailsViewModel.type1.observe(this, Observer {
             binding.type1.setType(it)
         })
@@ -58,9 +61,33 @@ class PokemonDetailsActivity : AppCompatActivity() {
             binding.type2.setType(it)
         })
 
-        pokemonDetailsViewModel.stats.observe(this, Observer {
-            binding.statChart.animate(it)
+        pokemonDetailsViewModel.stats.observe(this, Observer { list ->
+            val sortedBy = list.sortedByDescending { item ->
+                item.first
+            }
+
+            binding.statChart.animate(sortedBy)
+            binding.statsValues.removeAllViews()
+            list.forEach { (_, value) ->
+                binding.statsValues.addView(createStatText(value))
+            }
         })
+
+        pokemonDetailsViewModel.setIntent(intent)
+
+    }
+
+    private fun createStatText(statValue : Float) : View {
+        return TextView(baseContext).apply {
+            text = statValue.toInt().toString()
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+            setTextColor(ContextCompat.getColor(baseContext, R.color.white))
+            gravity = Gravity.CENTER_VERTICAL
+        }
 
     }
 }
