@@ -3,7 +3,6 @@ package com.amatucci.andrea.pokedex
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -62,13 +61,12 @@ class PokemonDetailsActivity : AppCompatActivity() {
         })
 
         pokemonDetailsViewModel.stats.observe(this, Observer { list ->
-            val sortedBy = list.sortedByDescending { item ->
-                item.first
-            }
+            val chartData = list.sortedByDescending { it.first }
+            val lblValData = list.sortedBy { it.first }
 
-            binding.statChart.animate(sortedBy)
+            binding.statChart.animate(chartData)
             binding.statsValues.removeAllViews()
-            list.forEach { (_, value) ->
+            lblValData.forEach { (_, value) ->
                 binding.statsValues.addView(createStatText(value))
             }
         })
