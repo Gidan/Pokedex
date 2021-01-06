@@ -1,18 +1,18 @@
 package com.amatucci.andrea.pokedex
 
 import android.util.Log
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.liveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.model.PokemonList
 import com.amatucci.andrea.pokedex.repository.PokemonRemoteMediator
 import com.amatucci.andrea.pokedex.repository.PokemonRepository
-import com.amatucci.andrea.pokedex.states.PokemonListStates
 import io.uniflow.androidx.flow.AndroidDataFlow
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class PokemonViewModel(private val pokemonRepository: PokemonRepository,
                        pokemonRemoteMediator: PokemonRemoteMediator) : AndroidDataFlow() {

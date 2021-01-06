@@ -20,7 +20,7 @@ class PokemonFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentPokemonBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this

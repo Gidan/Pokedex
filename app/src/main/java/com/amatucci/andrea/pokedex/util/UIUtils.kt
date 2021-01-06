@@ -1,12 +1,10 @@
 package com.amatucci.andrea.pokedex.util
 
-import android.content.res.Resources.getSystem
 import androidx.core.graphics.ColorUtils
 
-fun Int.toDp(): Int = (this / getSystem().displayMetrics.density).toInt()
-
-fun Int.toPx(): Int  = (this * getSystem().displayMetrics.density).toInt()
-
+/**
+ * Blend between a list of colors to get the average color
+ */
 fun blendColors(vararg color : Int) : Int? {
     var retColor : Int? = null
 

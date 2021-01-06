@@ -16,15 +16,12 @@ class CreditsFragment : Fragment() {
 
     private lateinit var binding : FragmentCreditsBinding
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCreditsBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         return binding.root
     }
-
-
 }

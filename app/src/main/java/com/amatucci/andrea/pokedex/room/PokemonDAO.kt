@@ -7,10 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import androidx.room.Transaction
 import com.amatucci.andrea.pokedex.model.Pokemon
-import com.amatucci.andrea.pokedex.model.Stat
-import com.amatucci.andrea.pokedex.model.Type
 
 
 @Dao
