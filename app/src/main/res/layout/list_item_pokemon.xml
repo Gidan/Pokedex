@@ -2,8 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data></data>
+    <data />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cvPokemon"
@@ -20,8 +19,17 @@
             >
 
             <View
+                android:id="@+id/bgBlendColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
+
+            <View
                 android:id="@+id/pokemonBlendColor"
-                android:layout_width="5dp"
+                android:layout_width="8dp"
                 android:layout_height="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

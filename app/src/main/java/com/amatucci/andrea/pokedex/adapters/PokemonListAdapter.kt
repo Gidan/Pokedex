@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amatucci.andrea.pokedex.R
 import com.amatucci.andrea.pokedex.customviews.Type
-import com.amatucci.andrea.pokedex.customviews.TypeTag
 import com.amatucci.andrea.pokedex.databinding.ListItemPokemonBinding
 import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.util.PokemonDataUtil
@@ -47,13 +46,7 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
         fun bind(pokemon: Pokemon?){
             this.pokemon = pokemon
             binding.apply {
-//                txtPokemonName.text = ""
-//                txtNum.text = ""
-//                Glide.with(root)
-//                    .load(R.drawable.ic_pokeball)
-//                    .into(ivPokemonArtwork)
-//                llTypes.removeAllViews()
-                pokemonBlendColor.setBackgroundColor(ContextCompat.getColor(root.context, R.color.white))
+                pokemonBlendColor.setBackgroundColor(ContextCompat.getColor(root.context, android.R.color.transparent))
                 pokemon?.let {
                     txtPokemonName.text = pokemon.name.toUpperCase(Locale.getDefault())
                     txtNum.text = root.context.getString(R.string.pokemon_item_number, pokemon.id)
@@ -67,8 +60,15 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
                     type1.setType(pokemon.types[0].type.name)
                     type2.setType(if (pokemon.types.size > 1) pokemon.types[1].type.name else null)
                     val map = pokemon.types.map { it.type.name }.map { ContextCompat.getColor(root.context, Type.valueOf(it).colorRes) }
-                    val blendColors = blendColors(*map.toIntArray())
-                    pokemonBlendColor.setBackgroundColor(blendColors!!)
+                    val blendColor = blendColors(*map.toIntArray())
+
+                    bgBlendColor.alpha = 0.0f
+                    blendColor?.let {
+                        pokemonBlendColor.setBackgroundColor(it)
+                        bgBlendColor.setBackgroundColor(it)
+                        bgBlendColor.alpha = 0.3f
+                    }
+
                 }
 
             }
