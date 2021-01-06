@@ -62,6 +62,7 @@ class TypeTag : FrameLayout {
         txtTypeName.setTextColor(ContextCompat.getColor(context, android.R.color.white))
         addView(txtTypeName)
         background = ContextCompat.getDrawable(context, R.drawable.type_tag_background)
+        alpha = 0f
 
         setPadding(15.toPx(), 2.toPx(), 15.toPx(), 2.toPx())
         val params = LayoutParams(
@@ -84,6 +85,7 @@ class TypeTag : FrameLayout {
                 }
             backgroundTintList =
                 ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+            alpha = 1f
         }
     }
 }
