@@ -22,4 +22,5 @@
     <string name="by_andrea_amatucci">by Andrea Amatucci</string>
 
     <string name="details">Details</string>
+    <string name="error_loading_list">Couldn\'t refresh pokemon list</string>
 </resources>

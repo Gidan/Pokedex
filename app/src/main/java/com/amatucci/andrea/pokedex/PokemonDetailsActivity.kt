@@ -32,18 +32,6 @@ class PokemonDetailsActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-//        with(window){
-//            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
-//            enterTransition = Slide()
-//            exitTransition = Slide()
-//            sharedElementEnterTransition = ChangeImageTransform()
-//            sharedElementExitTransition = ChangeImageTransform()
-//        }
-
-//        val bitmap = intent.extras?.get("pokemonArtwork") as Bitmap
-//        val bitmapDrawable = BitmapDrawable(resources, bitmap)
-//        binding.ivPokemonArtwork.setImageBitmap(bitmapDrawable.bitmap)
-
         val imageUrl = intent.extras?.get("pokemonArtworkUrl") as String
         imageUrl.let {
             Glide.with(baseContext)

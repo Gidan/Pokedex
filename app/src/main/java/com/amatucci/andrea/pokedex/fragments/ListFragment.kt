@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import com.amatucci.andrea.pokedex.PokemonDetailsActivity
 import com.amatucci.andrea.pokedex.PokemonViewModel
+import com.amatucci.andrea.pokedex.R
 import com.amatucci.andrea.pokedex.adapters.OnItemClickListener
 import com.amatucci.andrea.pokedex.adapters.PokemonListAdapter
 import com.amatucci.andrea.pokedex.adapters.PokemonLoadStateAdapter
@@ -63,13 +65,6 @@ class ListFragment : Fragment() {
                     }
                 }
 
-//                val drawableBitmap = (commonView as ImageView).drawable.toBitmap()
-//                intent.putExtra("pokemonArtwork", drawableBitmap)
-
-//                val options = ActivityOptions
-//                    .makeSceneTransitionAnimation(activity, commonView, "pokemonArtwork")
-//                startActivity(intent, options.toBundle())
-
                 startActivity(intent)
             }
         })
@@ -78,21 +73,16 @@ class ListFragment : Fragment() {
         onStates(pokemonViewModel) { state ->
             when (state) {
                 is PokemonListStates.InitPokemonListState -> {
-//                    pokemonViewModel.getPokemonList()
-//                    pokemonViewModel.getFullPokemonList()
+                    Log.d(logTag, "init pokemons")
                 }
                 is PokemonListStates.LoadingPokemonListState -> {
                     Log.d(logTag, "loading pokemons")
                     binding.loadingPokemonListProgress.visibility = View.VISIBLE
                 }
-//                is PokemonListStates.PokemonListState -> {
-//                    Log.d(logTag, state.pokemonList.toString())
-//                    binding.loadingPokemonListProgress.visibility = View.GONE
-//                    adapter.submitList(state.pokemonList)
-//                }
                 is PokemonListStates.LoadingPokemonListErrorState -> {
                     Log.e(logTag, "error state: ${state.exception.message}")
                     binding.loadingPokemonListProgress.visibility = View.GONE
+                    Toast.makeText(context, getString(R.string.error_loading_list), Toast.LENGTH_SHORT).show()
                 }
                 is PokemonListStates.LoadedPokemonListState -> {
                     Log.d(logTag, "loaded")
@@ -100,12 +90,6 @@ class ListFragment : Fragment() {
                 }
             }
         }
-
-//        pokemonViewModel.fullPokemonList.observe(viewLifecycleOwner, Observer { list ->
-//            adapter.submitList(list)
-//        })
-
-
 
         lifecycleScope.launchWhenCreated {
             @OptIn(ExperimentalCoroutinesApi::class)
@@ -127,18 +111,5 @@ class ListFragment : Fragment() {
                 header = PokemonLoadStateAdapter(adapter::retry),
                 footer = PokemonLoadStateAdapter(adapter::retry)
             )
-
-//        lifecycleScope.launch {
-//            adapter.loadStateFlow.collectLatest { loadStates ->
-//                binding.loadingPokemonListProgress.isVisible = loadStates.refresh is LoadState.Loading
-//                //retry.isVisible = loadStates.refresh !is LoadState.Loading
-//                //errorMsg.isVisible = loadStates.refresh is LoadState.Error
-//            }
-//        }
-
-
     }
-
-
-
 }

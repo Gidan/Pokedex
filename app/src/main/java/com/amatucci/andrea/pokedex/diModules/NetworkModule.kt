@@ -9,7 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 val networkModule = module {
     single { provideRetrofit() }
     factory { providePokemonService(get()) }
-    single { PokemonRepository(get(), get()) }
+    single { PokemonRepository(get()) }
 }
 
 fun provideRetrofit(): Retrofit {

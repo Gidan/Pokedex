@@ -9,10 +9,8 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.amatucci.andrea.pokedex.model.Pokemon
 
-
 @Dao
 interface PokemonDAO {
-
 
     @Query("SELECT * FROM Pokemon")
     fun getAllPokemons(): LiveData<List<Pokemon>>

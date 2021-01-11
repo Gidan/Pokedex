@@ -1,31 +1,17 @@
 package com.amatucci.andrea.pokedex
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import androidx.lifecycle.liveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.amatucci.andrea.pokedex.model.Pokemon
-import com.amatucci.andrea.pokedex.model.PokemonList
 import com.amatucci.andrea.pokedex.repository.PokemonRemoteMediator
 import com.amatucci.andrea.pokedex.repository.PokemonRepository
 import io.uniflow.androidx.flow.AndroidDataFlow
-import kotlinx.coroutines.Dispatchers
 
 class PokemonViewModel(private val pokemonRepository: PokemonRepository,
                        pokemonRemoteMediator: PokemonRemoteMediator) : AndroidDataFlow() {
-
-    val pokemonList = liveData<PokemonList>(Dispatchers.IO) {
-        val result = runCatching { pokemonRepository.pokemonList() }
-        result.onSuccess {
-            emit(it)
-        }
-        result.onFailure {
-            Log.e("PokemonViewModel", "pokemonList failure ${it.message}")
-        }
-    }
 
     private val _selectedPokemon = MutableLiveData<Pokemon?>(null)
     val selectedPokemon: LiveData<Pokemon?> get() = _selectedPokemon

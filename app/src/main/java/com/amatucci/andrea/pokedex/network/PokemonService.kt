@@ -2,7 +2,6 @@ package com.amatucci.andrea.pokedex.network
 
 import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.model.PokemonList
-import com.amatucci.andrea.pokedex.model.PokemonSpecies
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
