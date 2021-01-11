@@ -29,5 +29,11 @@ interface PokemonDAO {
     @Query("DELETE FROM Pokemon")
     suspend fun clearAll()
 
+    @Query("SELECT * FROM Pokemon WHERE id = :id")
+    suspend fun pokemonByID(id : Int) : Pokemon
+
+    @Query("SELECT * FROM Pokemon WHERE name = :name")
+    suspend fun pokemonByName(name : String) : Pokemon
+
 
 }

@@ -13,7 +13,7 @@ class PokemonRepository(
 
     suspend fun pokemonList() = pokemonService.pokemonList()
 
-    suspend fun pokemon(id: Int) = pokemonService.pokemon(id)
+    suspend fun pokemon(id: Int) = pokemonDao.pokemonByID(id)
 
     fun getPokemonList(): LiveData<List<Pokemon>> {
         return pokemonDao.getAllPokemons()
