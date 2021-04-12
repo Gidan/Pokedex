@@ -3,6 +3,7 @@ package com.amatucci.andrea.pokedex
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.amatucci.andrea.pokedex.model.Pokemon
@@ -27,6 +28,7 @@ class PokemonViewModel(private val pokemonRepository: PokemonRepository,
         }
     }
 
+    @ExperimentalPagingApi
     val fullPokemonList = Pager(
         config = PagingConfig(pageSize = 20),
         remoteMediator = pokemonRemoteMediator

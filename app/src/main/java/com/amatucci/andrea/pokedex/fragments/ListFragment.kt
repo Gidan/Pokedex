@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import com.amatucci.andrea.pokedex.PokemonDetailsActivity
 import com.amatucci.andrea.pokedex.PokemonViewModel
@@ -37,6 +38,7 @@ class ListFragment : Fragment() {
 
     private val logTag = ListFragment::class.java.simpleName
 
+    @ExperimentalPagingApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +52,7 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
+    @ExperimentalPagingApi
     private fun setup(){
         val adapter = PokemonListAdapter(object : OnItemClickListener{
             override fun onItemClicked(position: Int, commonView: View, pokemon: Pokemon?) {
