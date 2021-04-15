@@ -26,7 +26,11 @@ data class Pokemon(
     @Embedded val sprites: Sprites,
     var stats : List<Stat>,
     var types : List<Type>
-)
+){
+    fun typesCount() : Int {
+        return types.size
+    }
+ }
 
 data class Sprites(
     val front_default: String,

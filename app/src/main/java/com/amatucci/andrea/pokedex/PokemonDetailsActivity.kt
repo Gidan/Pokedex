@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.amatucci.andrea.pokedex.databinding.ActivityPokemonDetailsBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -32,14 +33,13 @@ class PokemonDetailsActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val imageUrl = intent.extras?.get("pokemonArtworkUrl") as String
-        imageUrl.let {
+        pokemonDetailsViewModel.imageUrl.observe(this, Observer{
             Glide.with(baseContext)
                 .load(it)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_pokeball)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(binding.ivPokemonArtwork)
-        }
+        })
 
         pokemonDetailsViewModel.type1.observe(this, Observer {
             binding.type1.setType(it)

@@ -61,11 +61,6 @@ class ListFragment : Fragment() {
                     val imgUrl = PokemonDataUtil.getArtwork(pokemon)
                     intent.putExtra("pokemonArtworkUrl", imgUrl)
                     intent.putExtra("id", pokemon.id)
-                    intent.putExtra("name", pokemon.name)
-                    intent.putExtra("type1", pokemon.types[0].type.name)
-                    if (pokemon.types.size > 1) {
-                        intent.putExtra("type2", pokemon.types[1].type.name)
-                    }
                 }
 
                 startActivity(intent)
