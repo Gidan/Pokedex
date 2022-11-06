@@ -23,4 +23,5 @@
 
     <string name="details">Details</string>
     <string name="error_loading_list">Couldn\'t refresh pokemon list</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
 </resources>

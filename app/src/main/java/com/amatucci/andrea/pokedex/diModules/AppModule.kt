@@ -2,7 +2,7 @@ package com.amatucci.andrea.pokedex.diModules
 
 import com.amatucci.andrea.pokedex.PokemonDetailsViewModel
 import com.amatucci.andrea.pokedex.PokemonViewModel
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 
 import org.koin.dsl.module
 

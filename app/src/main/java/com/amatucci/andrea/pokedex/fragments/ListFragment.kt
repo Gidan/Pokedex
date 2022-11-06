@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
@@ -21,10 +22,9 @@ import com.amatucci.andrea.pokedex.databinding.FragmentListBinding
 import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.states.PokemonListStates
 import com.amatucci.andrea.pokedex.util.PokemonDataUtil
-import io.uniflow.androidx.flow.onStates
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import io.uniflow.android.livedata.onStates
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -38,11 +38,11 @@ class ListFragment : Fragment() {
 
     private val logTag = ListFragment::class.java.simpleName
 
-    @ExperimentalPagingApi
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentListBinding.inflate(layoutInflater)
         binding.model = pokemonViewModel
         binding.lifecycleOwner = this
@@ -52,7 +52,8 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
-    @ExperimentalPagingApi
+
+    @OptIn(ExperimentalPagingApi::class)
     private fun setup(){
         val adapter = PokemonListAdapter(object : OnItemClickListener{
             override fun onItemClicked(position: Int, commonView: View, pokemon: Pokemon?) {
@@ -90,7 +91,6 @@ class ListFragment : Fragment() {
         }
 
         lifecycleScope.launchWhenCreated {
-            @OptIn(ExperimentalCoroutinesApi::class)
             pokemonViewModel.fullPokemonList.flow.collectLatest {
                 adapter.submitData(it)
             }
@@ -98,7 +98,6 @@ class ListFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener { adapter.refresh() }
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-            @OptIn(ExperimentalCoroutinesApi::class)
             adapter.loadStateFlow.collectLatest { loadStates ->
                 binding.swipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
             }

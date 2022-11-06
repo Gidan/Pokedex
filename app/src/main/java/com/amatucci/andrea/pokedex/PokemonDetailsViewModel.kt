@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.repository.PokemonRepository
 import com.amatucci.andrea.pokedex.util.PokemonDataUtil
-import io.uniflow.androidx.flow.AndroidDataFlow
+import io.uniflow.android.AndroidDataFlow
 import kotlinx.coroutines.launch
 import java.util.*
 

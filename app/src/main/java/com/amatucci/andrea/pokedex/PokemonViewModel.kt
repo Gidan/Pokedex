@@ -9,23 +9,21 @@ import androidx.paging.PagingConfig
 import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.repository.PokemonRemoteMediator
 import com.amatucci.andrea.pokedex.repository.PokemonRepository
-import io.uniflow.androidx.flow.AndroidDataFlow
+import io.uniflow.android.AndroidDataFlow
 
-class PokemonViewModel(private val pokemonRepository: PokemonRepository,
-                       pokemonRemoteMediator: PokemonRemoteMediator) : AndroidDataFlow() {
+
+class PokemonViewModel(
+    private val pokemonRepository: PokemonRepository,
+    pokemonRemoteMediator: PokemonRemoteMediator
+) : AndroidDataFlow() {
 
     private val _selectedPokemon = MutableLiveData<Pokemon?>(null)
     val selectedPokemon: LiveData<Pokemon?> get() = _selectedPokemon
-    var selectedPokemonName : LiveData<String>
-    var selectedPokemonId : LiveData<String>
-
-    init {
-        selectedPokemonName = Transformations.map(selectedPokemon){
-            it?.name
-        }
-        selectedPokemonId = Transformations.map(selectedPokemon){
-            "#${it?.id}"
-        }
+    var selectedPokemonName: LiveData<String> = Transformations.map(selectedPokemon) {
+        it?.name
+    }
+    var selectedPokemonId: LiveData<String> = Transformations.map(selectedPokemon) {
+        "#${it?.id}"
     }
 
     @ExperimentalPagingApi
@@ -36,8 +34,7 @@ class PokemonViewModel(private val pokemonRepository: PokemonRepository,
         pokemonRepository.pokemonDao.getPokemons()
     }
 
-    suspend fun pokemon(id: Int) : Pokemon = pokemonRepository.pokemon(id)
-
+    suspend fun pokemon(id: Int): Pokemon = pokemonRepository.pokemon(id)
 
 
 }

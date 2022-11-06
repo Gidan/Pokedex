@@ -9,11 +9,10 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.amatucci.andrea.pokedex.R
-import com.amatucci.andrea.pokedex.customviews.Type
 import com.amatucci.andrea.pokedex.databinding.ListItemPokemonBinding
 import com.amatucci.andrea.pokedex.model.Pokemon
 import com.amatucci.andrea.pokedex.util.PokemonDataUtil
-import com.amatucci.andrea.pokedex.util.blendColors
+import com.amatucci.andrea.pokedex.util.blendedColor
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -75,12 +74,8 @@ class PokemonListAdapter(private val onItemClickListener: OnItemClickListener) :
                         .into(ivPokemonArtwork)
                     type1.setType(pokemon.types[0].type.name)
                     type2.setType(if (pokemon.types.size > 1) pokemon.types[1].type.name else null)
-                    val map = pokemon.types.map { it.type.name }.map { ContextCompat.getColor(
-                        root.context, Type.valueOf(
-                            it
-                        ).colorRes
-                    ) }
-                    val blendColor = blendColors(*map.toIntArray())
+
+                    val blendColor = blendedColor(pokemon, root.context)
 
                     bgBlendColor.alpha = 0.0f
                     blendColor?.let {

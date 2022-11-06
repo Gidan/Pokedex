@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -12,14 +13,12 @@ import com.amatucci.andrea.pokedex.databinding.ActivityPokemonDetailsBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import org.koin.android.viewmodel.ext.android.viewModel
-
 
 class PokemonDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityPokemonDetailsBinding
 
-    private val pokemonDetailsViewModel: PokemonDetailsViewModel by viewModel()
+    private val pokemonDetailsViewModel: PokemonDetailsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
